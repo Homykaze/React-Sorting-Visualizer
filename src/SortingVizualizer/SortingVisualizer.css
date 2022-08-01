@@ -21,3 +21,8 @@ body{
     min-height: 1vh;
     color: orangered;
 }
+
+.sliders{
+    min-width:120px;
+    width: 10%;
+}

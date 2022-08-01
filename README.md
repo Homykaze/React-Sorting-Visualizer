@@ -1,6 +1,6 @@
 # Sorting Visualizer
 
-Implemented a sorting visualizing application that uses 1 different sorting algorithms:
+Implemented a sorting visualizing application that uses 2 different sorting algorithms:
 
 ## Selection sort
 Takes O(n*n) operations to execute (on average) and is one of the most basic sorting algoritms out there. It was my first sorting algorithm to learn and its logic is implemented with two nested 'for' loops as follows:

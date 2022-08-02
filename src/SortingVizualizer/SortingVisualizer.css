@@ -1,5 +1,10 @@
+*{
+    margin:0;
+    padding: 0;
+}
+
 body{
-    background-color: #333;
+    background-color: #111;
     color: #eaeaea;
 }
 
@@ -17,12 +22,45 @@ body{
 .array-bar{
     background-color: aqua;
     margin: 0 1px;
-    width: 1.4%;
-    min-height: 1vh;
-    color: orangered;
+    min-width: 0.6%;
+    min-height: 2.5rem;
+    color: aqua;
+    text-align: center;
+    font-size: 1.8rem;
+    /* border-top: 1px blue solid;
+    border-left: 1px blue solid;
+    border-right: 1px blue solid; */
+
 }
 
 .sliders{
     min-width:120px;
     width: 10%;
+}
+
+@media(max-width: 550px){
+    .array-bar{
+        min-width: 0.5%;
+        min-height: 5vh;
+        font-size: 1rem;
+        margin: 0 1px;
+    }
+}
+@media(max-width: 400px){
+    .array-bar{
+        min-width: 0.4%;
+        min-height: 6vh;
+    }
+}
+@media(max-width: 350px){
+    .array-bar{
+        min-width: 0.35%;
+        min-height: 4vh;
+    }
+}
+
+@media(max-width: 300px){
+    .array-bar{
+        min-width: 0.3%;
+    }
 }

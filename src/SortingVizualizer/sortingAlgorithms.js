@@ -1,7 +1,10 @@
+let animations = [];
+
+//Selection sort
 export const selectionSort = array => {
     let i = 0;
     let j = i + 1;
-    let animations = [];
+    animations = [];
     //Iterate over the whole array
     for (i = 0; i < array.length - 1; ++i){
         //Find min in the rest of the array
@@ -43,10 +46,12 @@ export const selectionSort = array => {
     }
     return animations;
 }
+//Selection sort
 
+//Insertion sort
 export const insertionSort = array => {
     let i, key, j;
-    let animations = [];
+    animations = [];
     for (i = 1; i < array.length; ++i){
         j = i - 1;
         key = array[i];
@@ -76,3 +81,63 @@ export const insertionSort = array => {
     }
     return animations;
 }
+//Insertion sort
+
+//Quick sort
+//Utility function
+const swap = (index1, index2, array) => {
+    const temp = array[index1];
+    array[index1] = array[index2];
+    array[index2] = temp;
+
+    //Swapping animation, with marking the swapped items
+    animations.push([index1, index2]);
+    //Another one to revert the colors
+    animations.push([index1, index2]);
+}
+
+//Partition selects a pivot and puts greater elements to its right and smaller elements to the left
+const partition = (array, low, high) => {
+    //We are taking the right-most element in the current array as a pivot [5, 4, 1, 10, 11, 12]
+    let pivot = array[high];
+    //i indicates the position of the pivot
+    let i = low;
+    for (let j = low; j < high; ++j){
+        // If current element is smaller than the pivot 
+        if (array[j] < pivot){
+            swap(i, j, array);
+            ++i; // update the position of the pivot
+        }
+    }
+    //Put the pivot to its position, it would be an element which is right next to the smaller element than the pivot
+    swap(i, high, array);
+    return i;
+}
+
+//Actual recursive quicksort algorithm
+const recursiveQuickSort = (array, low, high) => {
+    if (low < high){
+        //Mark the boundaries of the currenttly being sorted array
+        animations.push([low, high, 0]);
+
+        //pivot is partitioning index; arr[pivot] is now at right place in the array
+        let pivot = partition(array, low, high);
+
+        //Mark the pivot only once, because it goes to the correct place right away
+        animations.push([pivot]);
+        //Mark the boundaries once more to revert the colors
+        animations.push([low, high, 0]);
+
+        // Separately sort elements before pivot and after it
+        recursiveQuickSort(array, low, pivot - 1);
+        recursiveQuickSort(array, pivot + 1, high);
+    }
+}
+
+//Driver code
+export const quickSort = array => {
+    animations = [];
+    array = recursiveQuickSort(array, 0, array.length - 1);
+    return animations;
+}
+//Quick sort

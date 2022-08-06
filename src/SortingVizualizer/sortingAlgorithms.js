@@ -1,6 +1,6 @@
 let animations = [];
 
-//Selection sort
+//SELECTION SORT BELOW
 export const selectionSort = array => {
     let i = 0;
     let j = i + 1;
@@ -46,9 +46,9 @@ export const selectionSort = array => {
     }
     return animations;
 }
-//Selection sort
+//SELECTION SORT ABOVE
 
-//Insertion sort
+//INSERTION SORT BELOW
 export const insertionSort = array => {
     let i, key, j;
     animations = [];
@@ -81,9 +81,9 @@ export const insertionSort = array => {
     }
     return animations;
 }
-//Insertion sort
+//INSERTION SORT ABOVE
 
-//Quick sort
+//QUICK SORT BELOW
 //Utility function
 const swap = (index1, index2, array) => {
     const temp = array[index1];
@@ -117,7 +117,7 @@ const partition = (array, low, high) => {
 //Actual recursive quicksort algorithm
 const recursiveQuickSort = (array, low, high) => {
     if (low < high){
-        //Mark the boundaries of the currenttly being sorted array
+        //Mark the boundaries of the currently being sorted array
         animations.push([low, high, 0]);
 
         //pivot is partitioning index; arr[pivot] is now at right place in the array
@@ -125,13 +125,14 @@ const recursiveQuickSort = (array, low, high) => {
 
         //Mark the pivot only once, because it goes to the correct place right away
         animations.push([pivot]);
-        //Mark the boundaries once more to revert the colors
+        //Mark the boundaries once more after swapping animations
         animations.push([low, high, 0]);
 
         // Separately sort elements before pivot and after it
         recursiveQuickSort(array, low, pivot - 1);
         recursiveQuickSort(array, pivot + 1, high);
     }
+    return array;
 }
 
 //Driver code
@@ -140,4 +141,141 @@ export const quickSort = array => {
     array = recursiveQuickSort(array, 0, array.length - 1);
     return animations;
 }
-//Quick sort
+//QUICK SORT ABOVE
+
+//MERGE SORT BELOW
+//This function merges arrays into one array in sorted order
+const merge = (array, left, medium, right) => {
+    //Get sizes and temp arrays
+    let size1 = medium - left + 1;
+    let size2 = right - medium;
+    let leftSubArr = new Array(size1);
+    let rightSubArr = new Array(size2);
+    
+    //Fill temp arrays
+    for(let i = 0; i < size1; i++){
+        leftSubArr[i] = array[left + i];
+    }
+    for(let j = 0; j < size2; j++){
+        rightSubArr[j] = array[medium + j + 1];
+    }
+
+    //Initial indeces of temp subarrays and merged subarray
+    let i = 0;
+    let j = 0;
+    let k = left;
+    while(i < size1 && j < size2){
+        //Mark the compared values
+        animations.push([left + i, medium + j + 1]);
+        //Twice to revert the colors
+        animations.push([left + i, medium + j + 1]);
+
+        if(leftSubArr[i] <= rightSubArr[j]){
+            //Update this correctly put value in the current array (two times to change color, once to change value)
+            animations.push([k]);
+            animations.push([k, leftSubArr[i]]);
+            animations.push([k]);
+
+            array[k++] = leftSubArr[i++];
+        } else {
+            //Update this correctly put value in the current array (two times to change color, once to change value)
+            animations.push([k]);
+            animations.push([k, rightSubArr[j]]);
+            animations.push([k]);
+
+            array[k++] = rightSubArr[j++];
+        }
+    }
+
+    //Copy the remaining elements if there are any (they will already be sorted, because of recursion)
+    while (i < size1){
+        //Mark the 'compared' values
+        animations.push([left + i + 1, left + i + 1]);
+        //Twice to revert the colors
+        animations.push([left + i + 1, left + i + 1]);
+        //Update this correctly put value in the current array (two times to change color, once to change value)
+        animations.push([k]);
+        animations.push([k, leftSubArr[i]]);
+        animations.push([k]);
+
+        array[k++] = leftSubArr[i++];
+    }
+    while (j < size2){
+        //Mark the 'compared' values
+        animations.push([medium + j + 1, medium + j + 1]);
+        //Twice to revert the colors
+        animations.push([medium + j + 1, medium + j + 1]);
+        //Update this correctly put value in the current array (two times to change color, once to change value)
+        animations.push([k]);
+        animations.push([k, rightSubArr[j]]);
+        animations.push([k]);
+
+        array[k++] = rightSubArr[j++];
+    }
+}
+
+//Actual recursive merge sorting algorithm
+const recursiveMergeSort = (array, left, right) => {
+    if (left < right){
+        const medium = left + Math.floor((right - left)/2);
+        recursiveMergeSort(array, left, medium);
+        recursiveMergeSort(array, medium + 1, right);
+        merge(array, left, medium, right);
+    }
+    return array;
+}
+
+//Driver code
+export const mergeSort = array => {
+    animations = [];
+    array = recursiveMergeSort(array, 0, array.length - 1);
+    return animations;
+}
+//MERGE SORT ABOVE
+
+//BUBBLE SORT BELOW
+export const bubbleSort = array => {
+    animations = [];
+    //Iterators: i, j; Temp value: temp; Boolean check if there was no swap during the nested loop
+    let i, j, temp, swapped;
+    let lastSwapId = 0;
+    for (i = 0; i < array.length - 1; ++i){
+        swapped = false;
+        //The length to compare pairs is decreasing
+        //Because with each iteration we are putting the greatest element to a correct spot
+        for (j = 0; j < array.length - i - 1; j++){
+            //Color change animation
+            animations.push([j, j + 1]);
+            //Twice to revert the color
+            animations.push([j, j + 1]);
+
+            if (array[j] > array[j + 1]){
+                //Swapping animation
+                animations.push([j, j + 1, 0]);
+
+                temp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = temp;
+                lastSwapId = j + 1;
+                swapped = true;
+            }
+            if (j + 1 === array.length - i - 1){
+                //Mark a correctly positioned element
+                animations.push([j + 1]);
+            }
+            if (j === array.length - i - 1){
+                //Mark a correctly positioned element
+                animations.push([j]);
+            }
+        }
+        //Stop looping, no swapping needed only for a sorted array
+        if (!swapped){
+            for(j = 0; j < array.length; ++j){
+                //Mark a correctly positioned element
+                animations.push([j]);
+            }
+            break;
+        };
+    }
+    return animations;
+}

@@ -29,8 +29,26 @@ Is considered the 'fastest' sorting algorithm and takes O(n*log(n)) in the best 
 - otherwise select a pivot (pivot is a random element, pivot's selection may affect algorithm's performance)
 - 'for' loop to partition the selected pivot between the elemenets smaller than pivot and greater than pivot
     - initialize the variable to store the final position of the pivot to be equal to the starting index of the array
-    - if an iterated element is smaller than the pivot, swap it with the variable tracking the final position of the pivot
+    - if an iterated element is smaller than the pivot, swap it with the element by index of variable tracking the final position of the pivot
     - increment the variable tracking the final position of the pivot
 - swap pivot with with the finally computed position
-- do the same procedure to the subarrays of elements before pivot and after it
-- return subarray1 + pivot + subarray2
+- return qSort(subarray1) + pivot + qSort(subarray2)
+
+## Merge sort
+This algorithm implements an idea of sorting subarrays recursively (almost like 'Quick sort'), where division into subarrays happens by splitting array(s) in halves literally by indeces, which gives it O(n*log(n)) performance in all best, average and worst cases. Whereas 'Quick Sort' division into subarrays happens by taking a pivot, putting it into a correct place in the array, and sorting subarrays arround this pivot. I learned this algorithm while implementing this project and was amazed by its simple logic:
+
+- if current array's size is less than 2, return it (base case)
+- otherwise divide it in half with 2 recursive calls (for first half and second half)
+- merge these halves into a sorted (sub)array:
+    - allocate 2 temporary arrays keeping the data of both subarrays
+    - insert the smallest elements into the merged array with a 'while' loop by iterating over both subarays
+    - insert the left over elements with another couple of 'while' loops (if there are any)
+
+## Bubble sort
+Worst-case performance is O(n²) and best-case performance is O(n). The way it works is by comparing closest pairs of elements starting from the beginning of the array to its end. By comparing each pair of elements it may swap them if a pair is in descending order, as a result of each walk-though an array we put at least the one highest unsorted element to its correct position. The algorithm is very similar to selection sort, however, 'Selection sort' performance is always O(n²). Bubble sort logic:
+
+- iterate over the entire array with a 'for' loop
+    -store 'swapped' status to be false
+    - iterate over each closest pair of elements and compare them with another 'for' loop
+        - if they are in descending order, then swap them, changed 'swapepd' status to 'true'
+    - if we never swapped in the nested loop, break out of the outer loop

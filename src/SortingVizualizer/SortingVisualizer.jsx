@@ -29,7 +29,7 @@ const SortingVisualizer = (props) => {
     }
 
     //Slider
-    const [size, setSize] = useState([50]);
+    const [size, setSize] = useState([75]);
     const handleArray = (event, newValue) => {
         setSize(newValue);
         setArray(resetArray());
@@ -151,10 +151,10 @@ const SortingVisualizer = (props) => {
             //Paint all elements back to the initial color
             for (let i = 0; i < arrayBars.length; ++i){
                 setTimeout(() => {
-                    arrayBars[i].style.backgroundColor = 'aqua';
+                    arrayBars[arrayBars.length - 1 - i].style.backgroundColor = 'aqua';
                 }, i * time)
             }
-        }, animations.length * time + arrayBars.length * time + 500);
+        }, animations.length * time + arrayBars.length * time + time);
         return array;
     }
 
@@ -162,8 +162,6 @@ const SortingVisualizer = (props) => {
         let animations = sortgingAlgorithms.quickSort(array);
         const arrayBars = document.getElementsByClassName("array-bar");
         let swappingCounter = 0;
-        console.log(animations);
-
         for (let i = 0; i < animations.length; ++i){
             if (animations[i].length === 3){
                 //Color animation (boundaries of the current part of the array)
@@ -187,9 +185,9 @@ const SortingVisualizer = (props) => {
                 //Swapping animation
                 setTimeout(() => {
                     const color = swappingCounter % 2 === 0 ? 'blue' : 'aqua';
+                    const [barOneIdx, barTwoIdx] = animations[i];
                     if (swappingCounter % 2 === 0){
                         //Height
-                        const [barOneIdx, barTwoIdx] = animations[i];
                         const barOneStyle = arrayBars[barOneIdx].style;
                         const barTwoStyle = arrayBars[barTwoIdx].style;
                         const tempHeight = barOneStyle.height;
@@ -201,7 +199,7 @@ const SortingVisualizer = (props) => {
                         //Values
                         if (size < 9){
                             const barOne = arrayBars[barOneIdx];
-                            const barTwo = arrayBars[barOneIdx];
+                            const barTwo = arrayBars[barTwoIdx];
                             const tempValue = barOne.textContent;
                             barOne.textContent = barTwo.textContent;
                             barTwo.textContent = tempValue;
@@ -227,12 +225,119 @@ const SortingVisualizer = (props) => {
                     arrayBars[i].style.backgroundColor = 'aqua';
                 }, i * time)
             }
-        }, animations.length * time);
+        }, animations.length * time + 100);
         return array;
     }
 
-    // const bubbleSort = () => {}
-    // const mergeSort = () => {}
+    const mergeSort = () => {
+        let animations = sortgingAlgorithms.mergeSort(array);
+        const arrayBars = document.getElementsByClassName("array-bar");
+        for(let i = 0; i < animations.length; ++i){
+            const changeColor = (i % 5 === 0) || (i % 5 === 1);
+            if (changeColor){
+                setTimeout(() => {
+                    const [barOneIdx, barTwoIdx] = animations[i];
+                    const barOneStyle = arrayBars[barOneIdx].style;
+                    const barTwoStyle = arrayBars[barTwoIdx].style;
+                    const color = i % 5 === 0 ? 'purple' : 'aqua';
+                    barOneStyle.backgroundColor = color;
+                    barTwoStyle.backgroundColor = color;
+                }, i * time);
+            } else if (animations[i].length === 1){
+                setTimeout(() => {
+                    const [barIdx] = animations[i];
+                    const barStyle = arrayBars[barIdx].style;
+                    const color = i % 5 === 2 ? 'blue' : 'aqua';
+                    barStyle.backgroundColor = color;
+                }, i * time);
+            } else {
+                setTimeout(() => {
+                    //Stylees
+                    const [barOneIdx, height] = animations[i];
+                    const barOneStyle = arrayBars[barOneIdx].style;
+                    barOneStyle.height = `${height*70/1000}vh`;
+                    //Values
+                    if (size < 9){
+                        const barOne = arrayBars[barOneIdx];
+                        barOne.textContent = height;
+                    }
+                }, i * time);
+            }
+        }
+
+        //Post-loop animations outside the loop
+        setTimeout(() => {
+            //Smooth animation from the end of the array to its beginning to show that it is sorted
+            for (let i = 0; i < arrayBars.length; ++i){
+                setTimeout(() => {
+                    arrayBars[arrayBars.length - 1 - i].style.backgroundColor = 'purple';
+                }, i * time)
+            }
+        }, animations.length * time);
+        setTimeout(() => {
+            //Paint all elements back to the initial color
+            for (let i = 0; i < arrayBars.length; ++i){
+                setTimeout(() => {
+                    arrayBars[arrayBars.length - 1 - i].style.backgroundColor = 'aqua';
+                }, i * time)
+            }
+        }, animations.length * time + arrayBars.length * time + time);
+        return array;
+    }
+
+    const bubbleSort = () => {
+        let animations = sortgingAlgorithms.bubbleSort(array);
+        const arrayBars = document.getElementsByClassName("array-bar");
+        let changeColor = 0;
+        for(let i = 0; i < animations.length; ++i){
+            if (animations[i].length === 2){
+                setTimeout(() => {
+                    const [barOneIdx, barTwoIdx] = animations[i];
+                    const barOneStyle = arrayBars[barOneIdx].style;
+                    const barTwoStyle = arrayBars[barTwoIdx].style;
+                    const color = changeColor % 2 === 0 ? 'blue' : 'aqua';
+                    barOneStyle.backgroundColor = color;
+                    barTwoStyle.backgroundColor = color;
+                    ++changeColor;
+                }, i * time);
+            } else if (animations[i].length === 3){
+                setTimeout(() => {
+                    //Styles
+                    const [barOneIdx, barTwoIdx] = animations[i];
+                    const barOneStyle = arrayBars[barOneIdx].style;
+                    const barTwoStyle = arrayBars[barTwoIdx].style;
+                    const tempHeight = barOneStyle.height;
+                    barOneStyle.height = barTwoStyle.height;
+                    barTwoStyle.height = tempHeight;
+                    //Values
+                    if (size < 9){
+                        const barOne = arrayBars[barOneIdx];
+                        const barTwo = arrayBars[barTwoIdx];
+                        const tempValue = barOne.textContent;
+                        barOne.textContent = barTwo.textContent;
+                        barTwo.textContent = tempValue;
+                    }
+                }, i * time);
+            } else if (animations[i].length === 1) {
+                setTimeout(() => {
+                    const [barIdx] = animations[i];
+                    const barStyle = arrayBars[barIdx].style;
+                    barStyle.backgroundColor = 'purple';
+                }, i * time);
+            }
+        }
+
+        //Post-loop animations outside the loop
+        setTimeout(() => {
+            //Smooth animation of the array getting to its initial color
+            for (let i = 0; i < arrayBars.length; ++i){
+                setTimeout(() => {
+                    arrayBars[i].style.backgroundColor = 'aqua';
+                }, i * time)
+            }
+        }, animations.length * time + 100);
+        return array;
+    }
     // const heapSort = () => {}
 
     return(
@@ -242,10 +347,12 @@ const SortingVisualizer = (props) => {
                 <button onClick={() => setArray(selectionSort())}>Selection Sort</button>
                 <button onClick={() => setArray(insertionSort())}>Insertion Sort</button>
                 <button onClick={() => setArray(quickSort())}>Quick Sort</button>
+                <button onClick={() => setArray(mergeSort())}>Merge Sort</button>
+                <button onClick={() => setArray(bubbleSort())}>Bubble Sort</button>
                 <div className = "sliders">
                     <Slider 
                         sx={{ color: 'aqua' }}
-                        defaultValue={50} 
+                        defaultValue={75} 
                         onChange = {handleArray}
                         min={4} 
                         max={100}

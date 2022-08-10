@@ -33,7 +33,7 @@ On average takes O(n²) operations to execute, just like 'Selection Sort', howev
     - do the same for the next element(s)
 
 ## Quick sort
-Is considered the 'fastest' sorting algorithm and takes O(n*log(n)) in the best and average case scenarios, but takes O(n²) in worst case scenarios, nevertheless, its constant operation time variable is less than the constant operation time of the 'Merge Sort' algorithm. It was my second sorting algorithm to learn, and it is a recursive sorting algorithm with a 'for' loop, where recursion takes O(log(n)) operations, whereas the loop O(n). Algorithm's logic:
+Is considered the 'fastest' sorting algorithm and takes O(n*log(n)) in both best and average case scenarios, but takes O(n²) in worst case scenarios, nevertheless, its constant operation time variable is less than the constant operation time of the 'Merge Sort' algorithm. It was my second sorting algorithm to learn, and it is a recursive sorting algorithm with a 'for' loop, where recursion takes O(log(n)) operations, whereas the loop O(n). Algorithm's logic:
 
 - if current array's size is less than 2, return it (base case)
 - otherwise select a pivot (pivot is a random element, pivot's selection may affect algorithm's performance)

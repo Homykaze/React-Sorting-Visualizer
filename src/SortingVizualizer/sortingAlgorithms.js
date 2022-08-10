@@ -16,7 +16,7 @@ export const selectionSort = array => {
             //Twice to revert the color
             animations.push([i, j, array.length - 1]);
             //Add one more push to keep the 1-2-3 order to follow the colors
-            animations.push([0]);
+            animations.push([]);
             if (array[j] < min){
                 min = array[j];
                 indexOfMin = j;
@@ -103,6 +103,11 @@ const partition = (array, low, high) => {
     //i indicates the position of the pivot
     let i = low;
     for (let j = low; j < high; ++j){
+        //Mark compared values
+        animations.push([j, high, 0, 0]);
+        //Twice to revert the colors
+        animations.push([j, high, 0, 0]);
+
         // If current element is smaller than the pivot 
         if (array[j] < pivot){
             swap(i, j, array);
@@ -153,12 +158,10 @@ const merge = (array, left, medium, right) => {
     let rightSubArr = new Array(size2);
     
     //Fill temp arrays
-    for(let i = 0; i < size1; i++){
+    for(let i = 0; i < size1; i++)
         leftSubArr[i] = array[left + i];
-    }
-    for(let j = 0; j < size2; j++){
+    for(let j = 0; j < size2; j++)
         rightSubArr[j] = array[medium + j + 1];
-    }
 
     //Initial indeces of temp subarrays and merged subarray
     let i = 0;
@@ -238,7 +241,6 @@ export const bubbleSort = array => {
     animations = [];
     //Iterators: i, j; Temp value: temp; Boolean check if there was no swap during the nested loop
     let i, j, temp, swapped;
-    let lastSwapId = 0;
     for (i = 0; i < array.length - 1; ++i){
         swapped = false;
         //The length to compare pairs is decreasing
@@ -256,26 +258,72 @@ export const bubbleSort = array => {
                 temp = array[j];
                 array[j] = array[j + 1];
                 array[j + 1] = temp;
-                lastSwapId = j + 1;
                 swapped = true;
             }
-            if (j + 1 === array.length - i - 1){
-                //Mark a correctly positioned element
-                animations.push([j + 1]);
-            }
-            if (j === array.length - i - 1){
-                //Mark a correctly positioned element
-                animations.push([j]);
-            }
+            //Mark a correctly positioned element
+            if (j + 1 === array.length - i - 1) animations.push([j + 1]);
         }
         //Stop looping, no swapping needed only for a sorted array
         if (!swapped){
-            for(j = 0; j < array.length; ++j){
+            for(j = 0; j < array.length - 1; ++j)
                 //Mark a correctly positioned element
                 animations.push([j]);
-            }
             break;
         };
     }
+    return animations;
+}
+//BUBBLE SORT ABOVE
+
+//HEAP SORT BELOW
+//Recursive heap array building function (array, size = end, i = start)
+const heapify = (array, size, i) => {
+    let max = i; //Should be the root element eventually
+    let left = 2 * i + 1;
+    let right = 2 * i + 2;
+
+    //Find max element in the given triple of nodes
+    if (left < size && array[left] > array[max]) max = left;
+    if (right < size && array[right] > array[max]) max = right;
+    //If max is not at the start (not the root), base case condition
+    if (max !== i){
+        //Swapped values
+        animations.push([i, max]);
+        //Twice to revert colors
+        animations.push([i, max]);
+        //Swapped values
+        animations.push([i, max, 0]);
+
+        let tempValue = array[i];
+        array[i] = array[max];
+        array[max] = tempValue;
+
+        //Recursive call for the subtree, because we change its head, we might need to swap some of its elements around
+        heapify(array, size, max);
+    }
+}
+
+//Driver code
+export const heapSort = array => {
+    animations = [];
+    let size = array.length;
+    //Rearrange the array to represent a heap data structure
+    for (let i = Math.floor(size / 2) - 1; i >= 0; --i)
+        heapify(array, size, i);
+
+    for (let i = size - 1; i > 0; --i){
+        //With every iteration the root element is the greatest one, so we put it to its position
+        let temp = array[0];
+        array[0] = array[i];
+        array[i] = temp;
+
+        //Mark correctly positioned element
+        animations.push([i]);
+
+        //Let's now restructure (from 0 to current i) array again to put max element to its position
+        heapify(array, i, 0);
+    }
+    //Mark correctly positioned min element
+    animations.push([0]);
     return animations;
 }

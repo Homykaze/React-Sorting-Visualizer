@@ -9,14 +9,67 @@ body{
 }
 
 .header{
-    height: 30vh;
+    max-width: 1400px;
+    margin: 0 auto;
+    height: 20vh;
+    display: flex;
+    justify-content:center;
+    align-items: center;
 }
+
+.buttons{
+    flex-basis:70%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.btn{
+    cursor: pointer;
+    background-color: #111;
+    font-size: 1rem;
+    color: #eaeaea;
+    padding: 12px 10px;
+    outline: 0;
+    border: 2px solid #eaeaea;
+    border-radius: 15px;
+    height: auto;
+    transition: border 0.3s;
+    transition: color 0.3s;
+}
+
+.btn:hover{
+    border: 2px solid purple;
+    color: purple;
+}
+
+.btnMain{
+    border: 2px solid aqua;
+    color: aqua;
+}
+
+.sliders{
+    flex-basis: 30%;
+    display: flex;
+    justify-content:flex-end;
+    align-items: center;
+}
+
+.slider{
+    flex-basis: 70%;
+    margin: 0 0 0 15px;
+}
+
+.menu{
+    border-radius: 6px;
+}
+
 
 .array-container{
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    height: 70vh;
+    height: 80vh;
 }
 
 .array-bar{
@@ -33,9 +86,65 @@ body{
 
 }
 
-.sliders{
-    min-width:120px;
-    width: 10%;
+@media(max-width: 1450px){
+    .buttons{
+        flex-basis: 60%;
+    }
+
+    .sliders{
+        flex-basis: 40%;
+        justify-content: space-around;
+    }
+
+    .slider{
+        max-width: 40%;
+    }
+
+    .btn{
+        font-size: 0.8rem;
+        padding: 8px 6px;
+    }
+}
+
+@media(max-width: 950px){
+    .header{
+        max-width: 100%;
+        margin: 0 auto;
+        height: 30vh;
+        display:block;
+    }
+    .array-container{
+        height: 70vh;
+    }
+
+    .buttons{
+        max-width: 100%;
+        flex-wrap: wrap;
+        padding: 5px;
+        margin-bottom: 30px;
+    }
+
+    .btn{
+        margin-top: 8px;
+        font-size: 0.75rem;
+        border: 1px solid #eaeaea;
+        border-radius: 10px;
+    }
+
+    .sliders{
+        max-width: 100%;
+    }
+
+    .slider{
+        max-width: 50%;
+        margin: 0 24px 0 5px;
+    }
+}
+
+@media(max-width: 600px){
+    .buttons{
+        margin-bottom: 0;
+    }
 }
 
 @media(max-width: 550px){

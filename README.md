@@ -1,7 +1,7 @@
 # Sorting Visualizer
 
-[Enjoy exploring sorting algorithms here.](https://moonlit-melba-02cf2d.netlify.app/)
-Implemented a responsive sorting visualizing application that uses 6 most popular sorting algorithms, such as:
+Enjoy exploring sorting algorithms [here](https://moonlit-melba-02cf2d.netlify.app/).
+Implemented a responsive sorting visualizing application that uses 6 most popular sorting algorithms of different complexity and performance characteristics, such as:
 
 ## Selection sort
 Always takes O(n²) operations to execute and is one of the most basic sorting algoritms out there. It was my first sorting algorithm to learn and its logic is implemented with two nested 'for' loops as follows:
